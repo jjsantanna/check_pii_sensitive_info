@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensitive Information Checker</title>
+    <style>
+            body {
+        background-color: #333;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+        h1, h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        form,
+    .highlighted-text,
+    .modified-text {
+        width: 400px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+        textarea, input[type="submit"], input[type="text"]{
+        background-color: #444;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+        }
+
+        .highlighted-text {
+            background-color: #444;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: vertical;
+            width: 400px;
+            box-sizing: border-box;
+        }
+
+        .copy-icon-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .copy-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .copy-icon:hover {
+            opacity: 0.8;
+        }
+        
+        form, .highlighted-text, .modified-text {
+            width: 400px;
+        }
+
+
+    </style>
+    <script>
+
+
+        function validateForm() {
+            var sensitiveWordsInput = document.getElementById("sensitive-words-input");
+            if (sensitiveWordsInput.value.trim() === "") {
+                alert("Sensitive Words cannot be blank.");
+                return false;
+            }
+            return true;
+        }
+
+        function copyToClipboard() {
+            var modifiedText = document.getElementById("modified-text");
+            modifiedText.select();
+            document.execCommand("copy");
+            alert("Modified text copied to clipboard!");
+        }
+
+        // Function to send email
+        function sendEmail() {
+            var subject = "Feedback - Sensitive Information Checker";
+            window.location.href = "mailto:jair.santanna@northwave.nl?subject=" + encodeURIComponent(subject);
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Sensitive Information Checker</h1>
+
+    <h2>Input Text:</h2>
+    <form method="POST" action="/" onsubmit="return validateForm();">
+        <textarea name="text" rows="10" cols="50" placeholder="Paste your text here">{{ text }}</textarea>
+        <br>
+        <input type="text" name="sensitive_words" id="sensitive-words-input" placeholder="Sensitive Words (separated by ';')" value="{{ sensitive_words }}">
+        <br>
+        <br>
+        <input type="submit" value="Check">
+    </form>
+    
+    {% if highlighted_text %}
+        <h2>Highlighting Sensitive Info:</h2>
+        <div class="highlighted-text">
+            <p style="margin: 0;">{{ highlighted_text | safe }}</p>
+        </div>
+        
+        <h2>Modified Text:</h2>
+        <div class="modified-text">
+            <div class="copy-icon-container">
+                <textarea id="modified-text" name="modified_text" rows="10" readonly style="width: 100%;">{{ modified_text }}</textarea>
+            </div>
+            <div class="copy-icon-container">
+                <button onclick="copyToClipboard()"><img class="copy-icon" src="/static/copy-icon.png" alt="Copy Icon"></button>
+            </div>
+        </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="sendEmail()">Send Feedback</button>
+    </div>
+</body>
+</html>
