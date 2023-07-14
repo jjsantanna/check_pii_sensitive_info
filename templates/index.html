@@ -78,6 +78,26 @@
             width: 400px;
         }
 
+        .disclaimer {
+            background-color: yellow;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 400px;
+        }
+
+        .disclaimerm {
+            background-color: magenta;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 400px;
+        }
+
 
     </style>
     <script>
@@ -125,12 +145,20 @@
         <div class="highlighted-text">
             <p style="margin: 0;">{{ highlighted_text | safe }}</p>
         </div>
+        <div class="disclaimerm">
+            'Magenta': may contain sensitive info before or after!</p>
+        </div>
         
         <h2>Modified Text:</h2>
+        <div class="disclaimer">
+            <p>ATTENTION<br>Make sure ALL sensitive information was replaced!</p>
+        </div>
         <div class="modified-text">
             <div class="copy-icon-container">
-                <textarea id="modified-text" name="modified_text" rows="10" readonly style="width: 100%;">{{ modified_text }}</textarea>
+                <textarea id="modified-text" name="modified_text" rows="10" style="width: 100%;">{{ modified_text }}</textarea>
+
             </div>
+            
             <div class="copy-icon-container">
                 <button onclick="copyToClipboard()"><img class="copy-icon" src="/static/copy-icon.png" alt="Copy Icon"></button>
             </div>
